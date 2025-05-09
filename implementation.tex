@@ -1,0 +1,11 @@
+\section{Implementation}
+
+% \subsection{Basics and Overview}
+
+In this section, we will discuss the implementation of the FPT in Linux. Since x86\_64 is a complex architecture, and it is not open-source, we can only emulate the behavior of the FPT mechanism in Linux by emulators. We modified QEMU with version 6.1.50 to support the FPT mechanism in ``hardware''. We also used Linux kernel version 5.15.0 to support the FPT mechanism. We changed the kernel to support the FPT mechanism by modifying the logic for page allocation logic, page table walk logic, and some TLB logic.
+
+Before we start to discuss the implementation, we need to activate the FPT mechanism in the kernel. The FPT mechanism is not enabled by default in the kernel, but allowed by some new Kconfig options - one for enabling the FPT mechanism and one for selecting the folding level, as we mentioned before. The configuration becomes effective in the kernel image after the kernel is compiled with the new Kconfig options. The kernel image is then loaded into the memory by the bootloader. The bootloader is responsible for loading the kernel image into the memory and passing control to it. We retain the backward compatibility with the radix structure, and the kernel could jump to suitable routines based on the enabled configuration.
+
+\subsection{Page Allocation Logic}
+
+The page allocation logic is responsible for allocating physical pages to the virtual address space of a process. The Linux kernel uses a buddy allocator to allocate physical pages. We do not need to modify the buddy allocator, but we need to modify the page allocation logic to support the FPT mechanism. Traditionally, the page table pages in each level have size 4KB, and the kernel uses \texttt{struct page} to represent a 4KB page frame. In FPT, however, the page table pages of the flattened level could have size 2MB. Hence, we need to modify the page allocation logic to check the level we are allocating the page table. If the level is the flattened level, we need to allocate a contiguous address space of 2MB, which corresponds to 512 ($2^9$) \texttt{struct page} objects.
