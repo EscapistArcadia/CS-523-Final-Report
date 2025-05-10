@@ -1,0 +1,72 @@
+\section{Design}
+
+\begin{figure}
+    \centering\begin{tikzpicture}[scale=0.5]
+        \tikzstyle{every node}=[font=\normalsize]
+        \draw  (0,0) rectangle  node {\normalsize PGD} (1.5,-2);
+        \draw  (3,3) rectangle  node {\normalsize PUD} (4.5,1);
+        \draw  (3,0) rectangle  node {\normalsize PUD} (4.5,-2);
+        \draw  (3,-3) rectangle  node {\normalsize PUD} (4.5,-5);
+        \draw [->, >=Stealth] (1.5,-0.5) -- (3,2);
+        \draw [->, >=Stealth] (1.5,-1) -- (3,-1);
+        \draw [->, >=Stealth] (1.5,-1.5) -- (3,-4);
+        \draw  (6,3) rectangle  node {\normalsize PMD} (7.5,1);
+        \draw  (6,0) rectangle  node {\normalsize PMD} (7.5,-2);
+        \draw  (6,-3) rectangle  node {\normalsize PMD} (7.5,-5);
+        \draw [->, >=Stealth] (4.5,-0.5) -- (6,2);
+        \draw [->, >=Stealth] (4.5,-1) -- (6,-1);
+        \draw [->, >=Stealth] (4.5,-1.5) -- (6,-4);
+        \draw  (9,3) rectangle  node {\normalsize PT} (10.5,1);
+        \draw  (9,0) rectangle  node {\normalsize PT} (10.5,-2);
+        \draw  (9,-3) rectangle  node {\normalsize PT} (10.5,-5);
+        \draw [->, >=Stealth] (7.5,-0.5) -- (9,2);
+        \draw [->, >=Stealth] (7.5,-1) -- (9,-1);
+        \draw [->, >=Stealth] (7.5,-1.5) -- (9,-4);
+        \node [font=\normalsize] at (3.75,3.75) {$\vdots$};
+        \node [font=\normalsize] at (3.75,-5.75) {$\vdots$};
+        \node [font=\normalsize] at (6.75,3.75) {$\vdots$};
+        \node [font=\normalsize] at (6.75,-5.75) {$\vdots$};
+        \node [font=\normalsize] at (9.75,3.75) {$\vdots$};
+        \node [font=\normalsize] at (9.75,-5.75) {$\vdots$};
+        \draw [ color={rgb,255:red,150; green,150; blue,150} , dashed] (0,3) rectangle  node {\normalsize PGD}  (1.5,1);
+        \draw [ color={rgb,255:red,150; green,150; blue,150} , dashed] (0,-3) rectangle  node {\normalsize PGD}  (1.5,-5);
+    \end{tikzpicture}
+    \caption{Traditional 4-level Radix Tree Strcuture in x86\_64}
+    \Description{The radix tree structure in x86\_64. The radix tree is a tree data structure that stores the page table entries. Each node in the tree represents a level of the page table, and each edge represents a page table entry. The leaf nodes represent the physical frames.}
+    \label{fig:radix_tree}
+\end{figure}
+
+\begin{figure}
+    \centering\begin{tikzpicture}[scale=0.5]
+        \tikzstyle{every node}=[font=\normalsize]
+        \draw  (0,0) rectangle  node {\normalsize PGD} (1.5,-2);
+        \draw [->, >=Stealth] (1.5,-0.5) -- (3,2);
+        \draw [->, >=Stealth] (1.5,-1) -- (3,-1);
+        \draw [->, >=Stealth] (1.5,-1.5) -- (3,-4);
+        \draw [ color={rgb,255:red,255; green,0; blue,0} ] (6,3) rectangle  node {\normalsize PMD} (7.5,1);
+        \draw [ color={rgb,255:red,255; green,0; blue,0} ] (6,0) rectangle  node {\normalsize PMD} (7.5,-2);
+        \draw [ color={rgb,255:red,255; green,0; blue,0} ] (6,-3) rectangle  node {\normalsize PMD} (7.5,-5);
+        \draw  (9,3) rectangle  node {\normalsize PT} (10.5,1);
+        \draw  (9,0) rectangle  node {\normalsize PT} (10.5,-2);
+        \draw  (9,-3) rectangle  node {\normalsize PT} (10.5,-5);
+        \draw [->, >=Stealth] (7.5,-0.5) -- (9,2);
+        \draw [->, >=Stealth] (7.5,-1) -- (9,-1);
+        \draw [->, >=Stealth] (7.5,-1.5) -- (9,-4);
+        \node [font=\normalsize] at (6.75,3.75) {$\vdots$};
+        \node [font=\normalsize] at (6.75,-5.75) {$\vdots$};
+        \node [font=\normalsize] at (9.75,3.75) {$\vdots$};
+        \node [font=\normalsize] at (9.75,-5.75) {$\vdots$};
+        \draw [ color={rgb,255:red,150; green,150; blue,150} , dashed] (0,3) rectangle  node {\normalsize PGD}  (1.5,1);
+        \draw [ color={rgb,255:red,150; green,150; blue,150} , dashed] (0,-3) rectangle  node {\normalsize PGD}  (1.5,-5);
+        \draw [ color={rgb,255:red,150; green,150; blue,150}, dashed] (3,3.5) -- (3,-5.5);
+        \draw [ color={rgb,255:red,150; green,150; blue,150}, dashed] (4.5,3.5) -- (4.5,-5.5);
+        \draw [->, >=Stealth] (3,2) -- (6,2);
+        \draw [->, >=Stealth] (3,-1) -- (6,-1);
+        \draw [->, >=Stealth] (3,-4) -- (6,-4);
+    \end{tikzpicture}
+    \caption{Flattened Page Table (FPT) in L3L2 Mode}
+    \Description{The flattened page table in L3L2 mode. The L3 level is folded into the L2 level, and the L2 level is enlarged to 2MB. The L2 level points to the L1 level.}
+    \label{fig:folded_L3L2}
+\end{figure}
+
+Figure \ref{fig:radix_tree} shows the traditional 4-level radix tree structure in x86\_64. The radix tree is a tree data structure that stores the page table entries. Each node in the tree represents a level of the page table, and each edge represents a page table entry. The leaf nodes represent the physical frames. In the traditional 4-level radix tree structure, the uppermost level (L4) is the Page Global Directory (PGD), which points to the Page Upper Directory (PUD, L3). The PUD points to the Page Middle Directory (PMD, L2), and the PMD points to the Page Table (PT, L1). The PT points to the physical frames. In our design, we enables some level(s) of tables to be flattened. The virtual address space spanned by the folded levels remains unchanged, but the size of the folded level(s) table is increased (from 4KB to 2MB). Take L3L2 folding as an example. An L3 page table page is 4KB and maps a 1GB address space, and an L2 page table page is 4KB and maps a 2MB address space. In FPT L3L2 mode, however, the level 3 no longer exists, and L2 page table page is 2MB and maps a 1GB address space. Each entry in the L2 page table page points to an L1 page table page, shown in Figure \ref{fig:folded_L3L2}.
