@@ -1,5 +1,21 @@
 \documentclass[sigplan,screen,10pt]{acmart}
 \usepackage{circuitikz}
+\usepackage{svg}
+\usepackage{listings}
+
+\lstset{
+    basicstyle=\small\ttfamily,
+	  keywordstyle=\ttfamily,
+    columns=fullflexible,
+    language=C,
+    numbers=left,
+    xleftmargin=18pt,
+    stepnumber=1,
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    breaklines=true,
+}
 
 \settopmatter{printfolios=true,printccs=false,printacmref=false}
 \renewcommand\footnotetextcopyrightpermission[1]{}
@@ -43,6 +59,8 @@
 \input{introduction}
 \input{design}
 \input{implementation}
+\input{evaluation}
+\input{related_work}
 \input{conclusion}
 \input{metadata}
 \bibliographystyle{acm}
