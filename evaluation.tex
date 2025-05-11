@@ -41,6 +41,7 @@ We also run the GUPS benchmark for random memory access, and a memory test from 
         \bottomrule
     \end{tabular}
     \caption{\bf Application workloads used in the evaluation.}
+    \Description{The table summarizes the workloads of the applications used in the evaluation. The working set size indicates the amount of memory used by the application, while the number of records represents the number of entries in the database. The read:write ratio indicates the proportion of read and write operations performed by the application, and the number of requests indicates the total number of requests made to the database.}
     \label{table:workloads}
 \end{table}
 
@@ -48,6 +49,7 @@ We also run the GUPS benchmark for random memory access, and a memory test from 
     \centering
     \includegraphics[width=0.495\linewidth]{graph/kern_inst_unified_never_L3L2.pdf} \includegraphics[width=0.495\linewidth]{graph/kern_inst_unified_never_L4L3L2L1.pdf}
     \caption{Distribution of kernel instructions of EMT-Linux with the Radix and FPT L3L2 mode (left) and L4L3+L2L1 mode (right).}
+    \Description{The figure shows the distribution of kernel instructions of EMT-Linux with the Radix and FPT L3L2 mode (left) and L4L3+L2L1 mode (right).}
     \label{fig:kernel_inst}
 \end{figure}
 
@@ -73,6 +75,7 @@ We believe that the reduction in kernel instructions is primarily due to the dec
     \centering
     \includegraphics[width=0.85\linewidth]{graph/fpt_pgwalk_unified_never.pdf}
     \caption{Page Walk Latencies of Radix and FPT modes}
+    \Description{The figure shows the page walk latencies of Radix and FPT modes. The x-axis represents the different benchmarks, while the y-axis represents the page walk latencies in nanoseconds. The bars represent the latencies for each benchmark under Radix and FPT modes.}
     \label{fig:fptpgwalk}
 \end{figure}
 
@@ -80,6 +83,7 @@ We believe that the reduction in kernel instructions is primarily due to the dec
     \centering
     \includegraphics[width=0.85\linewidth]{graph/fpt_ipc_unified_never.pdf}
     \caption{IPC Speedup of Radix and FPT modes}
+    \Description{The figure shows the IPC speedup of Radix and FPT modes. The x-axis represents the different benchmarks, while the y-axis represents the IPC speedup. The bars represent the speedup for each benchmark under Radix and FPT modes.}
     \label{fig:fptipc}
 \end{figure}
 
@@ -87,6 +91,7 @@ We believe that the reduction in kernel instructions is primarily due to the dec
     \centering
     \includegraphics[width=0.85\linewidth]{graph/fpt_e2e_unified_never.pdf}
     \caption{End-to-End Latency of Radix and FPT modes}
+    \Description{The figure shows the end-to-end latency of Radix and FPT modes. The x-axis represents the different benchmarks, while the y-axis represents the end-to-end latency in milliseconds. The bars represent the latency for each benchmark under Radix and FPT modes.}
     \label{fig:fpte2e}
 \end{figure}
 
