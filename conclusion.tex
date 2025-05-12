@@ -1,3 +1,5 @@
 \section{Conclusion}
 
-This project is awesome.
+This work presented the Flattened Page Table (FPT), a practical modification to the x86\_64 Linux memory management subsystem that reduces virtual-to-physical address translation overhead by selectively collapsing levels of the page table hierarchy. By merging adjacent levels—such as L3L2 or L4L3+L2L1—into wider tables, FPT shortens the translation path while maintaining compatibility with existing software and hardware expectations. We implemented FPT in EMT-Linux and extended QEMU to emulate the required hardware behavior, enabling end-to-end support for flattened page walks.
+
+Our evaluation demonstrates that FPT leads to measurable reductions in kernel instruction counts, page walk latency, and overall execution time on memory-intensive workloads, outperforming both standard radix paging and Elastic Cuckoo Page Tables (ECPT) in several cases. These results suggest that even modest changes to the page table layout can bring substantial benefits. FPT serves as a promising direction for future systems that seek to optimize address translation with minimal disruption to existing software ecosystems.

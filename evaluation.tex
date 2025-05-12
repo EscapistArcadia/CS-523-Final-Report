@@ -1,8 +1,6 @@
 \section{Evaluation}
 
-In this section, we evaluate the performance of our implementation of the flattened page table in Linux. We first present the experimental setup, including the hardware and software configurations. Then, we compare the performance of our implementation with the original 4-level radix paging mechanism, and the ECPT paging mechanism in Linux using various benchmarks. Finally, we analyze the results and discuss the implications of our findings.
-
-% TODO: add reference for ECPT, csynb
+In this section, we evaluate the performance of our implementation of the flattened page table in Linux. We first present the experimental setup, including the hardware and software configurations. Then, we compare the performance of our implementation with the original 4-level radix paging mechanism in Linux using various benchmarks. Finally, we analyze the results and discuss the implications of our findings.
 
 \subsection{Methodology and Metrics}
 
@@ -23,9 +21,9 @@ We use seven memory-intensive macro benchmarks. Some benchmarks are selected fro
     Single-Source Shortest Path (SSSP),
     Connected Components (CC),
     Triangle Counting (TC),
-    PageRank (PR).
+    PageRank (PR) \cite{graphbig}.
 
-We also run the GUPS benchmark for random memory access, and a memory test from SysBench. Both benchmarks have 64GB working sets.
+We also run the GUPS benchmark for random memory access, and a memory test from SysBench \cite{gups,sysbench}. Both benchmarks have 64GB working sets.
 
 \begin{table}
     \centering
@@ -56,7 +54,7 @@ We also run the GUPS benchmark for random memory access, and a memory test from 
 We also keep track of three memory-intensive real-world applications:
     Redis,
     Memcached,
-    PostgreSQL.
+    PostgreSQL. \cite{redis,memcached,postgresql}.
 Table \ref{table:workloads} summarizes the workloads of these applications.
 
 % TODO: citation for GraphBIG
@@ -87,6 +85,20 @@ We believe that the reduction in kernel instructions is primarily due to the dec
     \label{fig:fptipc}
 \end{figure}
 
+We compare the performance of Radix and FPT modes across several dimensions, including page table walk counts, instructions per cycle (IPC), and end-to-end execution latency. Across all metrics, the Flattened Page Table (FPT) configurations show consistent improvements over the traditional 4-level Radix page table.
+
+\paragraph{Page Table Walks.}
+
+As shown in Figure \ref{fig:fptpgwalk}, the average page walk speed for both L3L2 and L4L3+L2L1 modes are accelerated, and the L4L3+L2L1 mode is mostly improved (up to about 1.2 times faster) than the Radix mode. The L3L2 mode shows a more modest improvement, but it still outperforms the Radix mode in most benchmarks. The reduction in page walk latency is particularly pronounced in workloads with irregular memory access patterns, especially in GUPS and Redis in L4L3+L2L1 mode. This suggests that the FPT optimizations are effective in reducing the overhead associated with deep page table walks.
+
+\paragraph{Instructions Per Cycle (IPC).}
+Figure~\ref{fig:fptipc} illustrates the IPC speedup across different benchmarks. Both FPT configurations achieve modest but consistent IPC improvements. The L4L3+L2L1 mode shows the most significant IPC improvement, particularly in GUPS and Memcached. The reduced number of page walks allows the processor to spend less time stalled on memory operations, thus improving execution throughput.
+
+\paragraph{End-to-End Latency.}
+We further evaluate the impact of FPT on total execution time in Figure~\ref{fig:fpte2e}, which includes both the loading and running phases, and Figure~\ref{fig:fpte2erun}, which focuses on the running phase only. The L4L3+L2L1 mode consistently outperforms Radix, with reduction of up to 0.85 time in some benchmarks.
+
+Overall, these results demonstrate that FPT reduces memory translation overhead, improves CPU efficiency, and shortens execution time. The L4L3+L2L1 mode provides the best performance across all benchmarks, validating the effectiveness of a deeper flattening approach.
+
 \begin{figure}
     \centering
     \includegraphics[width=0.85\linewidth]{graph/fpt_e2e_unified_never.pdf}
@@ -95,3 +107,10 @@ We believe that the reduction in kernel instructions is primarily due to the dec
     \label{fig:fpte2e}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\linewidth]{graph/fpt_e2e_running_never.pdf}
+    \caption{Running Phase Latency of Radix and FPT modes}
+    \Description{The figure shows the running phase latency of Radix and FPT modes. The x-axis represents the different benchmarks, while the y-axis represents the running phase latency in milliseconds. The bars represent the latency for each benchmark under Radix and FPT modes.}
+    \label{fig:fpte2erun}
+\end{figure}

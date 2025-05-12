@@ -1,5 +1,5 @@
 \begin{abstract}
 
-The abstract of the project report
+    Virtual memory translation is a critical component of modern operating systems but often suffers from significant overhead due to deep multi-level page walks—particularly in the x86\_64 architecture. This overhead becomes a bottleneck for memory-intensive applications, especially under irregular access patterns found in data analytics, graph processing, and in-memory databases. In this work, we propose and implement a novel page table structure called the Flattened Page Table (FPT), which preserves the structure of hierarchical paging while enabling selective flattening of adjacent levels (e.g., L3-L2 or L4-L3+L2-L1). We integrate FPT into EMT-Linux \cite{emt} and modify both the kernel page table logic and QEMU to emulate hardware support for flattened walks. Our implementation supports multiple folding modes via kernel configuration and preserves backward compatibility with standard radix paging. Through a comprehensive evaluation using memory-intensive macro and application benchmarks, we show that FPT reduces kernel instruction overhead, improves instruction-per-cycle (IPC), and decreases page walk latency. These results demonstrate the feasibility and benefits of flattening page tables in commodity operating systems.
 
 \end{abstract}
